@@ -3,48 +3,48 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include  "Monster.h"
+
+void handleEvent(sf::RenderWindow* window) {
+
+    sf::Event event;
+    while (window->pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window->close();
+    }
+}
 
 int main()
 {
+    Monster* diggi = new Monster(50, 0, sf::IntRect(0, 0, 25, 25));
+    diggi->setSprite("C:\\Users\\jonfp\\Downloads\\Koromon_texture_atlas_2.png");
+    
     sf::RenderWindow window(sf::VideoMode(500, 300), "Tamamon");
     sf::Color white(255, 255, 255);
-
-    sf::Texture texture;
-    texture.loadFromFile("C:\\Users\\jonfp\\Downloads\\Koromon_texture_atlas.png");
-    sf::IntRect rectagleSource(0, 0, 25, 25);
-    
-    sf::Sprite sprite(texture, rectagleSource);
-    int pixelScale = 5;
-    sprite.scale(-pixelScale, pixelScale);
-    sprite.setPosition(50, 0);
     
     sf::Clock clock;
     
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+        handleEvent(&window);
 
         if (clock.getElapsedTime().asSeconds() > 1.0f) {
-            if (rectagleSource.top == 0) {
-                rectagleSource.top += 25;
+            if (diggi->getIntRect().top == 0) {
+                diggi->setIntRect(25, 0, 25, 25);
                 
-                sf::Vector2f position = sprite.getPosition();
-                sprite.setPosition(position.x + 2* pixelScale, position.y);
+                sf::Vector2f position = diggi->getSprite().getPosition();
+                diggi->move(5, 0);
             }
             else
-                rectagleSource.top = 0;
+                diggi->setIntRect(0, 0, 25, 25);
 
-            sprite.setTextureRect(rectagleSource);
+            diggi->updateRect();
             clock.restart();
         }
 
         window.clear(white);
-        window.draw(sprite);
+        window.draw(diggi->getSprite());
         window.display();
     }
 
