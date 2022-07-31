@@ -5,13 +5,13 @@ using std::string;
 class Monster
 {
 private:
-	int m_x;
-	int m_y;
+	int   m_x;
+	int   m_y;
 	float m_pixelScale = 5.0f;
 
 	sf::Texture m_texture;
 	sf::IntRect m_rectagleSource;
-	sf::Sprite m_sprite;
+	sf::Sprite  m_sprite;
 
 public: 
 
@@ -21,12 +21,15 @@ public:
 		m_rectagleSource = rs;
 	}
 	
-	sf::Sprite getSprite();
+	sf::Sprite  getSprite();
 	sf::IntRect getIntRect();
 	void setIntRect(int, int, int, int);
 	void move(int, int);
 	void setSprite(string);
-
 	void updateRect();
+	void flipSprite();
+
+	int getX();
+	int getY();
 };
 

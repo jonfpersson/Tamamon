@@ -6,8 +6,6 @@ void Monster::move(int xSteps, int ySteps){
 
 	int xOffset = xSteps * m_pixelScale;
 	int yOffset = ySteps * m_pixelScale;
-	cout << m_x;
-	cout << m_y;
 	m_sprite.setPosition(m_x + xOffset, m_y + yOffset);
 	
 	m_x += xOffset;
@@ -20,8 +18,20 @@ void Monster::setSprite(string path) {
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_rectagleSource);
 	
-	m_sprite.scale(-m_pixelScale, m_pixelScale);
-	m_sprite.setPosition(50, 0);
+	m_sprite.scale(m_pixelScale, m_pixelScale);
+	m_x = 100;
+	m_y = 0;
+	m_sprite.setOrigin(m_rectagleSource.width / 2, 0);
+
+	m_sprite.setPosition(m_x, m_y);
+}
+
+int Monster::getX() {
+	return m_x;
+}
+
+int Monster::getY() {
+	return m_y;
 }
 
 void Monster::updateRect() {
@@ -30,6 +40,10 @@ void Monster::updateRect() {
 
 sf::Sprite Monster::getSprite() {
 	return m_sprite;
+}
+
+void Monster::flipSprite() {
+	m_sprite.scale(-1, 1);
 }
 
 sf::IntRect Monster::getIntRect() {
