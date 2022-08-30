@@ -9,19 +9,63 @@ using namespace std;
 *************************************************/
 void Monster::move(int xSteps, int ySteps){
 
-	int xOffset = xSteps * m_pixelScale;
-	int yOffset = ySteps * m_pixelScale;
+	float xOffset = xSteps * m_pixelScale;
+	float yOffset = ySteps * m_pixelScale;
 	m_sprite.setPosition(m_x + xOffset, m_y + yOffset);
 	
 	m_x += xOffset;
 	m_y += yOffset;
 
 }
+
+/************************************************
+* @param clock - Intern clock to keep track of animation
+* @param movementSpeedX - Speed of x axis
+* @param movementSpeedY - Speed of y axis
+* @param windowX - Window x size
+* @param windowY - Window y size
+* @brief Sets sprite and location of monster
+*************************************************/
+void Monster::animate(sf::Clock* const clock, 
+                      int windowX,
+	                  int windowY) {
+
+	if (clock->getElapsedTime().asSeconds() > 0.85f) {
+		if (getIntRect().top == 0) {
+			setIntRect(25, 0, 25, 25);
+
+			move(-movementSpeedX, movementSpeedY);
+
+			/* Prevent from going through edges */
+			if (m_x - (getIntRect().width * 2) <= 0 ||
+				m_x + (getIntRect().width * 2) >= windowX ||
+				(double)rand() / (RAND_MAX) > 0.85) {
+
+				movementSpeedX = -movementSpeedX;
+				flipSprite();
+			}
+
+			/* Changes the y speed at random intervals */
+			if (m_y <= 0 ||
+				m_y + (getIntRect().height * 4) >= windowY) {
+
+				movementSpeedY = -movementSpeedY;
+			}
+		}
+		else {
+			setIntRect(0, 0, 25, 25);
+		}
+
+		updateAtlas();
+		clock->restart();
+	}
+}
+
 /************************************************
 * @param path - Path to image atlas
 * @brief Sets sprite and location of monster
 *************************************************/
-void Monster::setSprite(string path) { 
+void Monster::setSprite(const char* path) { 
 	m_texture.loadFromFile(path);
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_rectagleSource);
@@ -72,7 +116,7 @@ int Monster::getWaterLevel() {
 /************************************************
 * @brief Updates shown part of image atlas 
 *************************************************/
-void Monster::updateRect() {
+void Monster::updateAtlas() {
 	m_sprite.setTextureRect(m_rectagleSource);
 }
 

@@ -8,6 +8,8 @@ private:
 	int   m_x;
 	int   m_y;
 	float m_pixelScale = 5.0f;
+	int movementSpeedX = 2;
+	int movementSpeedY = 3;
 
 	int m_food = 100;
 	int m_hp = 100;
@@ -28,9 +30,10 @@ public:
 	sf::IntRect getIntRect();
 	void setIntRect(int, int, int, int);
 	void move(int, int);
-	void setSprite(string);
-	void updateRect();
+	void setSprite(const char*);
+	void updateAtlas();
 	void flipSprite();
+	void animate(sf::Clock* const, int, int);
 
 	int getFoodLevel();
 	int getHpLevel();

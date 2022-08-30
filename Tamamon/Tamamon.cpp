@@ -9,9 +9,10 @@
 
 const int windowX = 350;
 const int windowY = 300;
-int movementSpeedX = 2;
-int movementSpeedY = 1;
 
+sf::Text* hungerText = new sf::Text();
+sf::Text* hpText = new sf::Text();
+sf::Text* waterText = new sf::Text();
 /************************************************
 * @param window - Window
 * @brief Handles closing of window
@@ -27,69 +28,34 @@ void handleEvent(sf::RenderWindow* window) {
 }
 
 /************************************************
-* @param monster - User's monster
-* @param clock - Clock keeping track of time
-* @brief Handles animation of monster
-*************************************************/
-void animateMonster(Monster* monster, sf::Clock* clock) {
-    
-    if (clock->getElapsedTime().asSeconds() > 0.85f) {
-        if (monster->getIntRect().top == 0) {
-            monster->setIntRect(25, 0, 25, 25);
-
-            monster->move(-movementSpeedX, movementSpeedY);
-            
-            /* Prevent from going through edges */
-            if (monster->getX() - (monster->getIntRect().width * 2) <= 0 ||
-                monster->getX() + (monster->getIntRect().width * 2) >= windowX ||
-                (double) rand() / (RAND_MAX) > 0.85) {
-
-                movementSpeedX = -movementSpeedX;
-                monster->flipSprite();
-            }
-            
-            /* Changes the y speed at random intervals */
-            if ((double) rand() / (RAND_MAX) > 0.7) {
-                movementSpeedY = -movementSpeedY;
-            }
-
-        }
-        else {
-            monster->setIntRect(0, 0, 25, 25);
-        }
-        
-        monster->updateRect();
-        clock->restart();
-    }
-}
-
-/************************************************
 * @brief Main method
 *************************************************/
 int main()
 {
     Monster* diggi = new Monster(windowX/2, 0, sf::IntRect(0, 0, 25, 25));
-    diggi->setSprite("C:\\Users\\jonfp\\Downloads\\Koromon_texture_atlas_2.png");
+    diggi->setSprite("Koromon_texture_atlas_2.png");
     
-    /*sf::Font font;
+    sf::Font font;
     font.loadFromFile("arial.ttf");
+    
     sf::Text hungerText(std::to_string(diggi->getFoodLevel()), font);
-    hungerText.setPosition(windowX / 2, 200);
-    hungerText.scale(5, 5);*/
+    
+    hungerText.setPosition(windowX / 2 - 24, 10);
+    hungerText.setCharacterSize(24);
+    hungerText.setFillColor(sf::Color::Black);
 
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Tamamon");
-    sf::Color white(255, 255, 255);
     
     sf::Clock clock;
     
     while (window.isOpen())
     {
         handleEvent(&window);
-        animateMonster(diggi, &clock);
+        diggi->animate(&clock, windowX, windowY);
 
-        window.clear(white);
+        window.clear(sf::Color::White);
         window.draw(diggi->getSprite());
-        //window.draw(hungerText);
+        window.draw(hungerText);
         window.display();
     }
 
