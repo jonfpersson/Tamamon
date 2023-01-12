@@ -32,7 +32,7 @@ void handleEvent(sf::RenderWindow* window) {
 *************************************************/
 int main()
 {
-    Monster* diggi = new Monster(windowX/2, 0, sf::IntRect(0, 0, 25, 25));
+    Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, 25, 25));
     diggi->setSprite("Koromon_texture_atlas_2.png");
     
     sf::Font font;

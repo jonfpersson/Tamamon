@@ -8,7 +8,7 @@ private:
 	int   m_x;
 	int   m_y;
 	float m_pixelScale = 5.0f;
-	int movementSpeedX = 2;
+	int movementSpeedX = 5;
 	int movementSpeedY = 3;
 
 	int m_food = 100;
@@ -28,6 +28,13 @@ public:
 	
 	sf::Sprite  getSprite();
 	sf::IntRect getIntRect();
+	int topSidePosition();
+	int bottomSidePosition();
+	void nextAtlasSquare();
+	int currentAtlasSquare();
+	int leftSidePosition();
+	int rightSidePosition();
+	void changeSpeedDirection(int*);
 	void setIntRect(int, int, int, int);
 	void move(int, int);
 	void setSprite(const char*);

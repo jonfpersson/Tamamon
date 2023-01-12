@@ -7,12 +7,12 @@ using namespace std;
 * @param ySteps - Steps to move in y axis
 * @brief Moves monster by xSteps and ySteps
 *************************************************/
-void Monster::move(int xSteps, int ySteps){
+void Monster::move(int xSteps, int ySteps) {
 
 	float xOffset = xSteps * m_pixelScale;
 	float yOffset = ySteps * m_pixelScale;
 	m_sprite.setPosition(m_x + xOffset, m_y + yOffset);
-	
+
 	m_x += xOffset;
 	m_y += yOffset;
 
@@ -26,34 +26,33 @@ void Monster::move(int xSteps, int ySteps){
 * @param windowY - Window y size
 * @brief Sets sprite and location of monster
 *************************************************/
-void Monster::animate(sf::Clock* const clock, 
-                      int windowX,
-	                  int windowY) {
+void Monster::animate(sf::Clock* const clock,
+	int windowX,
+	int windowY) {
 
 	if (clock->getElapsedTime().asSeconds() > 0.85f) {
-		if (getIntRect().top == 0) {
-			setIntRect(25, 0, 25, 25);
-
+		if (currentAtlasSquare() == 0) {
+			nextAtlasSquare();
 			move(-movementSpeedX, movementSpeedY);
+	
 
 			/* Prevent from going through edges */
-			if (m_x - (getIntRect().width * 2) <= 0 ||
-				m_x + (getIntRect().width * 2) >= windowX ||
+			if (leftSidePosition() < 0 ||
+				rightSidePosition() >= windowX ||
 				(double)rand() / (RAND_MAX) > 0.85) {
-
-				movementSpeedX = -movementSpeedX;
+				changeSpeedDirection(&movementSpeedX);
 				flipSprite();
 			}
 
 			/* Changes the y speed at random intervals */
-			if (m_y <= 0 ||
-				m_y + (getIntRect().height * 4) >= windowY) {
+			if (topSidePosition() <= 0 ||
+				bottomSidePosition() >= windowY) {
 
-				movementSpeedY = -movementSpeedY;
+				changeSpeedDirection(&movementSpeedY);
 			}
 		}
 		else {
-			setIntRect(0, 0, 25, 25);
+			nextAtlasSquare();
 		}
 
 		updateAtlas();
@@ -62,19 +61,73 @@ void Monster::animate(sf::Clock* const clock,
 }
 
 /************************************************
+* @brief Gets the y position of the top side
+*************************************************/
+int Monster::topSidePosition() {
+	return m_y - (getIntRect().height * 2);
+}
+
+/************************************************
+* @brief Gets the y position of the bottom side
+*************************************************/
+int Monster::bottomSidePosition() {
+	return m_y + (getIntRect().height * 2);
+}
+
+void Monster::nextAtlasSquare() {
+	if (currentAtlasSquare() == 0)
+		setIntRect(25, 0, 25, 25);
+	else
+		setIntRect(0, 0, 25, 25);
+	return;
+}
+
+/************************************************
+* @brief Cycles through the two animations of the
+* picture altas
+*************************************************/
+int Monster::currentAtlasSquare() {
+	return getIntRect().top;
+}
+
+/************************************************
+* @param speed - walking speed of monster
+* @brief Reverses speed
+*************************************************/
+void Monster::changeSpeedDirection(int* speed) {
+	*speed = -(*speed);
+	return;
+}
+
+/************************************************
+* @brief Gets the x position of the left side
+*************************************************/
+int Monster::leftSidePosition() {
+	return m_x - (getIntRect().width * 2);
+}
+
+/************************************************
+* @brief Gets the x position of the right side
+*************************************************/
+int Monster::rightSidePosition() {
+	return m_x + (getIntRect().width * 2);
+}
+
+/************************************************
 * @param path - Path to image atlas
 * @brief Sets sprite and location of monster
 *************************************************/
-void Monster::setSprite(const char* path) { 
+void Monster::setSprite(const char* path) {
 	m_texture.loadFromFile(path);
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_rectagleSource);
-	
-	m_sprite.scale(m_pixelScale, m_pixelScale);
-	
-	m_sprite.setOrigin(m_rectagleSource.width / 2, 0);
 
+	m_sprite.scale(m_pixelScale, m_pixelScale);
+	m_sprite.setOrigin(m_rectagleSource.width / 2, m_rectagleSource.height / 2);
 	m_sprite.setPosition(m_x, m_y);
+	cout << "\n";
+	cout << m_x;
+	cout << "\n";
 }
 
 /************************************************
@@ -114,7 +167,7 @@ int Monster::getWaterLevel() {
 }
 
 /************************************************
-* @brief Updates shown part of image atlas 
+* @brief Updates shown part of image atlas
 *************************************************/
 void Monster::updateAtlas() {
 	m_sprite.setTextureRect(m_rectagleSource);
