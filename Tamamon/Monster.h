@@ -10,6 +10,7 @@ private:
 	float m_pixelScale = 5.0f;
 	int movementSpeedX = 5;
 	int movementSpeedY = 3;
+	int evolveTimer = 0;
 
 	int m_food = 100;
 	int m_hp = 100;
@@ -19,29 +20,28 @@ private:
 	sf::IntRect m_rectagleSource;
 	sf::Sprite  m_sprite;
 
+	void nextAtlasSquare();
+	int currentAtlasSquare();
+	void changeSpeedDirection(int*);
+	void handleEdgeColission(int, int);
+	void setSprite(const char*);
+	void updateAtlas();
+	void flipSprite();
+	void move(int, int);
+	void setIntRect(int, int, int, int);
+
 public: 
 	Monster(int x, int y, sf::IntRect rs) {
 		m_x = x;
 		m_y = y;
 		m_rectagleSource = rs;
+		setSprite("egg_texture_atlas.png");
 	}
-	
-	sf::Sprite  getSprite();
-	sf::IntRect getIntRect();
-	int topSidePosition();
-	int bottomSidePosition();
-	void nextAtlasSquare();
-	int currentAtlasSquare();
-	int leftSidePosition();
-	int rightSidePosition();
-	void changeSpeedDirection(int*);
-	void setIntRect(int, int, int, int);
-	void move(int, int);
-	void setSprite(const char*);
-	void updateAtlas();
-	void flipSprite();
 	void animate(sf::Clock* const, int, int);
 
+	sf::Sprite  getSprite();
+	sf::IntRect getIntRect();
+	
 	int getFoodLevel();
 	int getHpLevel();
 	int getWaterLevel();

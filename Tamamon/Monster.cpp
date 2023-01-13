@@ -2,6 +2,37 @@
 #include <iostream>
 using namespace std;
 
+#define EGG_HATCH_TIMER 12
+/************************************************
+* @param clock - Intern clock to keep track of animation
+* @param movementSpeedX - Speed of x axis
+* @param movementSpeedY - Speed of y axis
+* @param windowX - Window x size
+* @param windowY - Window y size
+* @brief Sets sprite and location of monster
+*************************************************/
+void Monster::animate(sf::Clock* const clock,
+	int windowX,
+	int windowY) {
+
+	if (clock->getElapsedTime().asSeconds() > 0.45f) {
+		evolveTimer++;
+
+		if (currentAtlasSquare() == 0) {
+			nextAtlasSquare();
+			move(-movementSpeedX, movementSpeedY);
+
+			handleEdgeColission(windowX, windowY);
+		}
+		else {
+			nextAtlasSquare();
+		}
+
+		updateAtlas();
+		clock->restart();
+	}
+}
+
 /************************************************
 * @param xSteps - Steps to move in x axis
 * @param ySteps - Steps to move in y axis
@@ -18,60 +49,25 @@ void Monster::move(int xSteps, int ySteps) {
 
 }
 
-/************************************************
-* @param clock - Intern clock to keep track of animation
-* @param movementSpeedX - Speed of x axis
-* @param movementSpeedY - Speed of y axis
-* @param windowX - Window x size
-* @param windowY - Window y size
-* @brief Sets sprite and location of monster
-*************************************************/
-void Monster::animate(sf::Clock* const clock,
-	int windowX,
-	int windowY) {
-
-	if (clock->getElapsedTime().asSeconds() > 0.85f) {
-		if (currentAtlasSquare() == 0) {
-			nextAtlasSquare();
-			move(-movementSpeedX, movementSpeedY);
-	
-
-			/* Prevent from going through edges */
-			if (leftSidePosition() < 0 ||
-				rightSidePosition() >= windowX ||
-				(double)rand() / (RAND_MAX) > 0.85) {
-				changeSpeedDirection(&movementSpeedX);
-				flipSprite();
-			}
-
-			/* Changes the y speed at random intervals */
-			if (topSidePosition() <= 0 ||
-				bottomSidePosition() >= windowY) {
-
-				changeSpeedDirection(&movementSpeedY);
-			}
-		}
-		else {
-			nextAtlasSquare();
-		}
-
-		updateAtlas();
-		clock->restart();
+void Monster::handleEdgeColission(int windowX, int windowY) {
+	/* Prevent from going through edges */
+	int leftSidePosition = m_x - (getIntRect().width * 2);
+	int rightSidePosition = m_x + (getIntRect().width * 2);
+	if (leftSidePosition < 0 ||
+		rightSidePosition >= windowX ||
+		(double)rand() / (RAND_MAX) > 0.85) {
+		changeSpeedDirection(&movementSpeedX);
+		flipSprite();
 	}
-}
 
-/************************************************
-* @brief Gets the y position of the top side
-*************************************************/
-int Monster::topSidePosition() {
-	return m_y - (getIntRect().height * 2);
-}
+	/* Prevent from going through edges */
+	int topSidePosition = m_y - (getIntRect().height * 2);
+	int bottomSidePosition = m_y + (getIntRect().height * 2);
+	if (topSidePosition <= 0 ||
+		bottomSidePosition >= windowY) {
 
-/************************************************
-* @brief Gets the y position of the bottom side
-*************************************************/
-int Monster::bottomSidePosition() {
-	return m_y + (getIntRect().height * 2);
+		changeSpeedDirection(&movementSpeedY);
+	}
 }
 
 void Monster::nextAtlasSquare() {
@@ -100,20 +96,6 @@ void Monster::changeSpeedDirection(int* speed) {
 }
 
 /************************************************
-* @brief Gets the x position of the left side
-*************************************************/
-int Monster::leftSidePosition() {
-	return m_x - (getIntRect().width * 2);
-}
-
-/************************************************
-* @brief Gets the x position of the right side
-*************************************************/
-int Monster::rightSidePosition() {
-	return m_x + (getIntRect().width * 2);
-}
-
-/************************************************
 * @param path - Path to image atlas
 * @brief Sets sprite and location of monster
 *************************************************/
@@ -122,12 +104,11 @@ void Monster::setSprite(const char* path) {
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_rectagleSource);
 
-	m_sprite.scale(m_pixelScale, m_pixelScale);
+	m_sprite.setScale(m_pixelScale, m_pixelScale);
+
 	m_sprite.setOrigin(m_rectagleSource.width / 2, m_rectagleSource.height / 2);
 	m_sprite.setPosition(m_x, m_y);
-	cout << "\n";
-	cout << m_x;
-	cout << "\n";
+	
 }
 
 /************************************************
@@ -171,6 +152,13 @@ int Monster::getWaterLevel() {
 *************************************************/
 void Monster::updateAtlas() {
 	m_sprite.setTextureRect(m_rectagleSource);
+
+	if (evolveTimer == EGG_HATCH_TIMER) {
+		setSprite("Koromon_texture_atlas_2.png");
+		if (movementSpeedX < 0) {
+			flipSprite();
+		}
+	}
 }
 
 /************************************************

@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include  "Monster.h"
+#include  "UIcontroller.h"
 
 const int windowX = 350;
 const int windowY = 300;
@@ -32,19 +33,12 @@ void handleEvent(sf::RenderWindow* window) {
 *************************************************/
 int main()
 {
-    Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, 25, 25));
-    diggi->setSprite("Koromon_texture_atlas_2.png");
-    
-    sf::Font font;
-    font.loadFromFile("arial.ttf");
-    
-    sf::Text hungerText(std::to_string(diggi->getFoodLevel()), font);
-    
-    hungerText.setPosition(windowX / 2 - 24, 10);
-    hungerText.setCharacterSize(24);
-    hungerText.setFillColor(sf::Color::Black);
-
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Tamamon");
+
+    Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, 25, 25));
+    //UIcontroller* uiController = new UIcontroller(&window);
+    //uiController->createTextField();
+
     
     sf::Clock clock;
     
@@ -55,10 +49,11 @@ int main()
 
         window.clear(sf::Color::White);
         window.draw(diggi->getSprite());
-        window.draw(hungerText);
+        //window.draw(hungerText);
         window.display();
     }
 
     delete diggi;
+//    delete uiController;
     return 0;
 }

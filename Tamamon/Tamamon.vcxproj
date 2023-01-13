@@ -147,9 +147,11 @@
   <ItemGroup>
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Tamamon.cpp" />
+    <ClCompile Include="UIcontroller.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="UIcontroller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
