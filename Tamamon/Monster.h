@@ -8,6 +8,7 @@ using std::make_unique;
 class Monster
 {
 private:
+	const char* m_textures[2] = {"agumon_textures\\botamon_texture_atlas.png", "agumon_textures\\Koromon_texture_atlas_2.png"};
 	int   m_x;
 	int   m_y;
 	float m_pixelScale = 5.0f;
@@ -25,6 +26,7 @@ private:
 	sf::IntRect m_rectagleSource;
 	sf::Sprite  m_sprite;
 
+	void updateVitals();
 	void nextAtlasSquare();
 	int currentAtlasSquare();
 	void changeSpeedDirection(int*);

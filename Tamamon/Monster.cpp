@@ -1,9 +1,8 @@
 #include "Monster.h"
 #include <iostream>
 using namespace std;
-
+#include <filesystem>
 #define EGG_HATCH_TIMER 12
-
 
 /************************************************
 * @brief Constructor
@@ -29,10 +28,25 @@ Monster::~Monster() {
 *************************************************/
 void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 
-	if (clock->getElapsedTime().asSeconds() > 0.85f) {
+	if (clock->getElapsedTime().asSeconds() > 0.35f) {
+
+		if (m_timer % 10 == 0) {
+			updateVitals();
+		}
+
 		animate(clock, windowX, windowY);
 		clock->restart();
 	}
+}
+
+void Monster::updateVitals() {
+	double offset = (double) 1 / (RAND_MAX);
+	m_food -= 5 * offset * rand();
+	m_water -= 5 * offset * rand();
+	m_hp -= 5 * offset * rand();
+
+	m_uiController->notifyOfChange(m_food, m_water, m_hp);
+
 }
 
 /************************************************
@@ -44,7 +58,6 @@ void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 * @brief Sets sprite and location of monster
 *************************************************/
 void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
-
 	m_timer++;
 
 	nextAtlasSquare();
@@ -151,8 +164,9 @@ void Monster::setSprite(const char* path) {
 void Monster::updateAtlas() {
 	m_sprite.setTextureRect(m_rectagleSource);
 
-	if (m_timer == EGG_HATCH_TIMER) {
-		setSprite("Koromon_texture_atlas_2.png");
+	if (m_timer % EGG_HATCH_TIMER == 0 && (m_timer / EGG_HATCH_TIMER) <= 2) {
+
+		setSprite(m_textures[(m_timer / EGG_HATCH_TIMER) - 1]);
 		if (m_movementSpeedX < 0) {
 			flipSprite();
 		}

@@ -40,10 +40,16 @@ sf::Text** UIcontroller::getElements() {
 * @brief Initializes text fields
 *************************************************/
 sf::Text* UIcontroller::initTextField(int x, int y) {
-    sf::Text* obj = new sf::Text("Test", m_font);
+    sf::Text* obj = new sf::Text("100", m_font);
     obj->setPosition(x, y);
     obj->setCharacterSize(24);
     obj->setFillColor(sf::Color::Black);
 
     return obj;
+}
+
+void UIcontroller::notifyOfChange(int food, int water, int health) {
+    m_foodTextField->setString(std::to_string(food));
+    m_waterTextField->setString(std::to_string(water));
+    m_healthTextField->setString(std::to_string(health));
 }

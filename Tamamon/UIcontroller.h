@@ -15,5 +15,6 @@ public:
 	UIcontroller();
 
 	sf::Text** getElements();
+	void notifyOfChange(int, int, int);
 };
 
