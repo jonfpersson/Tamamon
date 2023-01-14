@@ -83,8 +83,8 @@ void Monster::move(int xSteps, int ySteps) {
 *************************************************/
 void Monster::handleEdgeColission(int windowX, int windowY) {
 	/* Prevent from going through edges */
-	int leftSidePosition = m_x - (getIntRect().width * 2);
-	int rightSidePosition = m_x + (getIntRect().width * 2);
+	int leftSidePosition = m_x - (m_rectagleSource.width * 2);
+	int rightSidePosition = m_x + (m_rectagleSource.width * 2);
 	if (leftSidePosition < 0 ||
 		rightSidePosition >= windowX ||
 		(double)rand() / (RAND_MAX) > 0.85) {
@@ -93,8 +93,8 @@ void Monster::handleEdgeColission(int windowX, int windowY) {
 	}
 
 	/* Prevent from going through edges */
-	int topSidePosition = m_y - (getIntRect().height * 2);
-	int bottomSidePosition = m_y + (getIntRect().height * 2);
+	int topSidePosition = m_y - (m_rectagleSource.height * 2);
+	int bottomSidePosition = m_y + (m_rectagleSource.height * 2);
 	if (topSidePosition <= 0 ||
 		bottomSidePosition >= windowY) {
 
@@ -117,7 +117,7 @@ void Monster::nextAtlasSquare() {
 * picture altas
 *************************************************/
 int Monster::currentAtlasSquare() {
-	return getIntRect().top;
+	return m_rectagleSource.top;
 }
 
 /************************************************
@@ -146,28 +146,6 @@ void Monster::setSprite(const char* path) {
 }
 
 /************************************************
-* @return Monster's hunger level
-*************************************************/
-int Monster::getFoodLevel() {
-	return m_food;
-}
-
-/************************************************
-* @return Monster's health points
-*************************************************/
-int Monster::getHpLevel() {
-	return m_hp;
-}
-
-
-/************************************************
-* @return Monster's hydration
-*************************************************/
-int Monster::getWaterLevel() {
-	return m_water;
-}
-
-/************************************************
 * @brief Updates shown part of image atlas
 *************************************************/
 void Monster::updateAtlas() {
@@ -193,13 +171,6 @@ sf::Sprite Monster::getSprite() {
 *************************************************/
 void Monster::flipSprite() {
 	m_sprite.scale(-1, 1);
-}
-
-/************************************************
-* @return IntRect used by sprite
-*************************************************/
-sf::IntRect Monster::getIntRect() {
-	return m_rectagleSource;
 }
 
 /************************************************

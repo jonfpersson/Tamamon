@@ -34,10 +34,7 @@ private:
 	void flipSprite();
 	void move(int, int);
 	void setIntRect(int, int, int, int);
-	sf::IntRect getIntRect();
-	int getFoodLevel();
-	int getHpLevel();
-	int getWaterLevel();
+
 public: 
 	Monster(int x, int y, sf::IntRect rs);
 	~Monster();
