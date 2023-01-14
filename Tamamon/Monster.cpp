@@ -14,14 +14,14 @@ Monster::Monster(int x, int y, sf::IntRect rs) {
 	m_rectagleSource = rs;
 	setSprite("egg_texture_atlas.png");
 
-	uiController = new UIcontroller();
+	m_uiController = new UIcontroller();
 }
 
 /************************************************
 * @brief Destructor
 *************************************************/
 Monster::~Monster() {
-	delete uiController;
+	delete m_uiController;
 }
 
 /************************************************
@@ -29,8 +29,7 @@ Monster::~Monster() {
 *************************************************/
 void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 
-	if (clock->getElapsedTime().asSeconds() > 0.45f) {
-
+	if (clock->getElapsedTime().asSeconds() > 0.85f) {
 		animate(clock, windowX, windowY);
 		clock->restart();
 	}
@@ -46,10 +45,10 @@ void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 *************************************************/
 void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
 
-	evolveTimer++;
+	m_timer++;
 
 	nextAtlasSquare();
-	move(-movementSpeedX, movementSpeedY);
+	move(-m_movementSpeedX, m_movementSpeedY);
 
 	handleEdgeColission(windowX, windowY);
 
@@ -60,7 +59,7 @@ void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
 * @brief Returns ui elements to be drawn
 *************************************************/
 sf::Text** Monster::getUIElements() {
-	return uiController->getElements();
+	return m_uiController->getElements();
 }
 
 /************************************************
@@ -89,7 +88,7 @@ void Monster::handleEdgeColission(int windowX, int windowY) {
 	if (leftSidePosition < 0 ||
 		rightSidePosition >= windowX ||
 		(double)rand() / (RAND_MAX) > 0.85) {
-		changeSpeedDirection(&movementSpeedX);
+		changeSpeedDirection(&m_movementSpeedX);
 		flipSprite();
 	}
 
@@ -99,7 +98,7 @@ void Monster::handleEdgeColission(int windowX, int windowY) {
 	if (topSidePosition <= 0 ||
 		bottomSidePosition >= windowY) {
 
-		changeSpeedDirection(&movementSpeedY);
+		changeSpeedDirection(&m_movementSpeedY);
 	}
 }
 
@@ -174,9 +173,9 @@ int Monster::getWaterLevel() {
 void Monster::updateAtlas() {
 	m_sprite.setTextureRect(m_rectagleSource);
 
-	if (evolveTimer == EGG_HATCH_TIMER) {
+	if (m_timer == EGG_HATCH_TIMER) {
 		setSprite("Koromon_texture_atlas_2.png");
-		if (movementSpeedX < 0) {
+		if (m_movementSpeedX < 0) {
 			flipSprite();
 		}
 	}

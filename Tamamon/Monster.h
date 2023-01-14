@@ -11,15 +11,15 @@ private:
 	int   m_x;
 	int   m_y;
 	float m_pixelScale = 5.0f;
-	int movementSpeedX = 5;
-	int movementSpeedY = 3;
-	int evolveTimer = 0;
+	int m_movementSpeedX = 5;
+	int m_movementSpeedY = 3;
+	long m_timer = 0;
 
 	int m_food = 100;
 	int m_hp = 100;
 	int m_water = 100;
 	
-	UIcontroller* uiController;
+	UIcontroller* m_uiController;
 
 	sf::Texture m_texture;
 	sf::IntRect m_rectagleSource;

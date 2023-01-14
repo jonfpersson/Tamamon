@@ -3,10 +3,10 @@
 class UIcontroller
 {
 private:
-    sf::Font font;
-	sf::Text* foodTextField;
-	sf::Text* healthTextField;
-	sf::Text* waterTextField;
+    sf::Font  m_font;
+	sf::Text* m_foodTextField;
+	sf::Text* m_healthTextField;
+	sf::Text* m_waterTextField;
 
 	sf::Text* initTextField(int, int);
 

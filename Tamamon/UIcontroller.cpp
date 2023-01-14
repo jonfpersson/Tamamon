@@ -4,11 +4,11 @@
 * @brief Constructor
 *************************************************/
 UIcontroller::UIcontroller() {
-    font.loadFromFile("arial.ttf");
+    m_font.loadFromFile("arial.ttf");
 
-    foodTextField = initTextField(20, 10);
-    healthTextField = initTextField(150, 10);
-    waterTextField = initTextField(280, 10);
+    m_foodTextField = initTextField(20, 10);
+    m_healthTextField = initTextField(150, 10);
+    m_waterTextField = initTextField(280, 10);
 
 }
 
@@ -16,9 +16,9 @@ UIcontroller::UIcontroller() {
 * @brief Destructor
 *************************************************/
 UIcontroller::~UIcontroller() {
-    delete foodTextField;
-    delete healthTextField;
-    delete waterTextField;
+    delete m_foodTextField;
+    delete m_healthTextField;
+    delete m_waterTextField;
 }
 
 /************************************************
@@ -26,9 +26,9 @@ UIcontroller::~UIcontroller() {
 *************************************************/
 sf::Text** UIcontroller::getElements() {
     sf::Text** fields = new sf::Text*[3];
-    fields[0] = foodTextField;
-    fields[1] = healthTextField;
-    fields[2] = waterTextField;
+    fields[0] = m_foodTextField;
+    fields[1] = m_healthTextField;
+    fields[2] = m_waterTextField;
     
     return fields;
 
@@ -40,7 +40,7 @@ sf::Text** UIcontroller::getElements() {
 * @brief Initializes text fields
 *************************************************/
 sf::Text* UIcontroller::initTextField(int x, int y) {
-    sf::Text* obj = new sf::Text("Test", font);
+    sf::Text* obj = new sf::Text("Test", m_font);
     obj->setPosition(x, y);
     obj->setCharacterSize(24);
     obj->setFillColor(sf::Color::Black);
