@@ -39,6 +39,9 @@ void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 	}
 }
 
+/************************************************
+* @brief Reduces vitals randomly
+*************************************************/
 void Monster::updateVitals() {
 	double offset = (double) 1 / (RAND_MAX);
 	m_food -= 5 * offset * rand();
@@ -116,7 +119,9 @@ void Monster::handleEdgeColission(int windowX, int windowY) {
 }
 
 
-
+/************************************************
+* @brief Cycles between 2 atlas frames
+*************************************************/
 void Monster::nextAtlasSquare() {
 	if (currentAtlasSquare() == 0)
 		setIntRect(25, 0, 25, 25);

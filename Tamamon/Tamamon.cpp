@@ -51,11 +51,9 @@ int main()
             window.draw(txt);
         }
 
-        //window.draw(hungerText);
         window.display();
     }
 
     delete diggi;
-//    delete uiController;
     return 0;
 }

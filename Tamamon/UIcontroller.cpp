@@ -48,6 +48,9 @@ sf::Text* UIcontroller::initTextField(int x, int y) {
     return obj;
 }
 
+/************************************************
+* @brief Updates all text fields
+*************************************************/
 void UIcontroller::notifyOfChange(int food, int water, int health) {
     m_foodTextField->setString(std::to_string(food));
     m_waterTextField->setString(std::to_string(water));
