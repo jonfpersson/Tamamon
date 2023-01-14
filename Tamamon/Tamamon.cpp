@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 
 #include  "Monster.h"
-#include  "UIcontroller.h"
 
 const int windowX = 350;
 const int windowY = 300;
@@ -36,19 +35,22 @@ int main()
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Tamamon");
 
     Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, 25, 25));
-    //UIcontroller* uiController = new UIcontroller(&window);
-    //uiController->createTextField();
-
     
     sf::Clock clock;
     
     while (window.isOpen())
     {
         handleEvent(&window);
-        diggi->animate(&clock, windowX, windowY);
+        diggi->run(&clock, windowX, windowY);
 
         window.clear(sf::Color::White);
         window.draw(diggi->getSprite());
+
+        for (int i = 0; i < 3; i++) {
+            sf::Text txt = *(diggi->getUIElements()[i]);
+            window.draw(txt);
+        }
+
         //window.draw(hungerText);
         window.display();
     }

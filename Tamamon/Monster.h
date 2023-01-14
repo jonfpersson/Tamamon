@@ -1,6 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 using std::string;
+using std::unique_ptr;
+using std::make_unique;
+#include  "UIcontroller.h"
 
 class Monster
 {
@@ -16,6 +19,8 @@ private:
 	int m_hp = 100;
 	int m_water = 100;
 	
+	UIcontroller* uiController;
+
 	sf::Texture m_texture;
 	sf::IntRect m_rectagleSource;
 	sf::Sprite  m_sprite;
@@ -29,24 +34,19 @@ private:
 	void flipSprite();
 	void move(int, int);
 	void setIntRect(int, int, int, int);
-
-public: 
-	Monster(int x, int y, sf::IntRect rs) {
-		m_x = x;
-		m_y = y;
-		m_rectagleSource = rs;
-		setSprite("egg_texture_atlas.png");
-	}
-	void animate(sf::Clock* const, int, int);
-
-	sf::Sprite  getSprite();
 	sf::IntRect getIntRect();
-	
 	int getFoodLevel();
 	int getHpLevel();
 	int getWaterLevel();
+public: 
+	Monster(int x, int y, sf::IntRect rs);
+	~Monster();
 
-	int getX();
-	int getY();
+	void animate(sf::Clock* const, int, int);
+	void run(sf::Clock* const, int, int);
+	sf::Text** getUIElements();;
+
+	sf::Sprite  getSprite();
+	
 };
 

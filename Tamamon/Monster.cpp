@@ -3,6 +3,39 @@
 using namespace std;
 
 #define EGG_HATCH_TIMER 12
+
+
+/************************************************
+* @brief Constructor
+*************************************************/
+Monster::Monster(int x, int y, sf::IntRect rs) {
+	m_x = x;
+	m_y = y;
+	m_rectagleSource = rs;
+	setSprite("egg_texture_atlas.png");
+
+	uiController = new UIcontroller();
+}
+
+/************************************************
+* @brief Destructor
+*************************************************/
+Monster::~Monster() {
+	delete uiController;
+}
+
+/************************************************
+* @brief Main loop
+*************************************************/
+void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
+
+	if (clock->getElapsedTime().asSeconds() > 0.45f) {
+
+		animate(clock, windowX, windowY);
+		clock->restart();
+	}
+}
+
 /************************************************
 * @param clock - Intern clock to keep track of animation
 * @param movementSpeedX - Speed of x axis
@@ -11,26 +44,23 @@ using namespace std;
 * @param windowY - Window y size
 * @brief Sets sprite and location of monster
 *************************************************/
-void Monster::animate(sf::Clock* const clock,
-	int windowX,
-	int windowY) {
+void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
 
-	if (clock->getElapsedTime().asSeconds() > 0.45f) {
-		evolveTimer++;
+	evolveTimer++;
 
-		if (currentAtlasSquare() == 0) {
-			nextAtlasSquare();
-			move(-movementSpeedX, movementSpeedY);
+	nextAtlasSquare();
+	move(-movementSpeedX, movementSpeedY);
 
-			handleEdgeColission(windowX, windowY);
-		}
-		else {
-			nextAtlasSquare();
-		}
+	handleEdgeColission(windowX, windowY);
 
-		updateAtlas();
-		clock->restart();
-	}
+	updateAtlas();
+}
+
+/************************************************
+* @brief Returns ui elements to be drawn
+*************************************************/
+sf::Text** Monster::getUIElements() {
+	return uiController->getElements();
 }
 
 /************************************************
@@ -40,8 +70,8 @@ void Monster::animate(sf::Clock* const clock,
 *************************************************/
 void Monster::move(int xSteps, int ySteps) {
 
-	float xOffset = xSteps * m_pixelScale;
-	float yOffset = ySteps * m_pixelScale;
+	int xOffset = xSteps * m_pixelScale;
+	int yOffset = ySteps * m_pixelScale;
 	m_sprite.setPosition(m_x + xOffset, m_y + yOffset);
 
 	m_x += xOffset;
@@ -49,6 +79,9 @@ void Monster::move(int xSteps, int ySteps) {
 
 }
 
+/************************************************
+* @brief Edge colission
+*************************************************/
 void Monster::handleEdgeColission(int windowX, int windowY) {
 	/* Prevent from going through edges */
 	int leftSidePosition = m_x - (getIntRect().width * 2);
@@ -69,6 +102,8 @@ void Monster::handleEdgeColission(int windowX, int windowY) {
 		changeSpeedDirection(&movementSpeedY);
 	}
 }
+
+
 
 void Monster::nextAtlasSquare() {
 	if (currentAtlasSquare() == 0)
@@ -109,20 +144,6 @@ void Monster::setSprite(const char* path) {
 	m_sprite.setOrigin(m_rectagleSource.width / 2, m_rectagleSource.height / 2);
 	m_sprite.setPosition(m_x, m_y);
 	
-}
-
-/************************************************
-* @return Monster's x coordinate
-*************************************************/
-int Monster::getX() {
-	return m_x;
-}
-
-/************************************************
-* @return Monster's y coordinate
-*************************************************/
-int Monster::getY() {
-	return m_y;
 }
 
 /************************************************
@@ -194,5 +215,4 @@ void Monster::setIntRect(int top, int left, int height, int width) {
 	m_rectagleSource.left = left;
 	m_rectagleSource.height = height;
 	m_rectagleSource.width = width;
-
 }
