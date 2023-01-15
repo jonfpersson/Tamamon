@@ -2,6 +2,10 @@
 #include <iostream>
 using namespace std;
 #include <filesystem>
+
+using std::filesystem::directory_iterator;
+
+
 #define EGG_HATCH_TIMER 12
 
 /************************************************
@@ -12,6 +16,14 @@ Monster::Monster(int x, int y, sf::IntRect rs) {
 	m_y = y;
 	m_rectagleSource = rs;
 	setSprite("egg_texture_atlas.png");
+
+	int count = std::distance(directory_iterator("agumon_textures"), directory_iterator());
+	
+	int index = 0;
+	for (const auto& file : directory_iterator("agumon_textures")) {
+		m_textures.push_back(file.path().string());
+	}
+
 
 	m_uiController = new UIcontroller();
 }
@@ -28,7 +40,7 @@ Monster::~Monster() {
 *************************************************/
 void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 
-	if (clock->getElapsedTime().asSeconds() > 0.35f) {
+	if (clock->getElapsedTime().asSeconds() > 0.85f) {
 
 		if (m_timer % 10 == 0) {
 			updateVitals();
@@ -67,8 +79,6 @@ void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
 	move(-m_movementSpeedX, m_movementSpeedY);
 
 	handleEdgeColission(windowX, windowY);
-
-	updateAtlas();
 }
 
 /************************************************
@@ -127,6 +137,8 @@ void Monster::nextAtlasSquare() {
 		setIntRect(25, 0, 25, 25);
 	else
 		setIntRect(0, 0, 25, 25);
+
+	updateAtlas();
 	return;
 }
 
@@ -169,12 +181,17 @@ void Monster::setSprite(const char* path) {
 void Monster::updateAtlas() {
 	m_sprite.setTextureRect(m_rectagleSource);
 
-	if (m_timer % EGG_HATCH_TIMER == 0 && (m_timer / EGG_HATCH_TIMER) <= 2) {
+	if (m_timer % EGG_HATCH_TIMER == 0) {
 
-		setSprite(m_textures[(m_timer / EGG_HATCH_TIMER) - 1]);
-		if (m_movementSpeedX < 0) {
-			flipSprite();
+		if (!m_textures.empty()) {
+			std::string val = m_textures.front();
+			setSprite(val.c_str());
+			m_textures.erase(m_textures.begin());
+			if (m_movementSpeedX < 0) {
+				flipSprite();
+			}
 		}
+		
 	}
 }
 

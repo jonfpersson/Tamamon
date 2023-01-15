@@ -1,14 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 using std::string;
-using std::unique_ptr;
-using std::make_unique;
 #include  "UIcontroller.h"
 
 class Monster
 {
 private:
-	const char* m_textures[2] = {"agumon_textures\\botamon_texture_atlas.png", "agumon_textures\\Koromon_texture_atlas_2.png"};
+	std::vector<std::string> m_textures;
 	int   m_x;
 	int   m_y;
 	float m_pixelScale = 5.0f;

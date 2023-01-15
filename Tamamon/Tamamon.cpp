@@ -1,14 +1,13 @@
-// Tamamon.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
 
 #include  "Monster.h"
 
-const int windowX = 350;
-const int windowY = 300;
+#define WINDOWX 350
+#define WINDOWY 300
+#define TEXTURE_WIDTH 25
+
 
 sf::Text* hungerText = new sf::Text();
 sf::Text* hpText = new sf::Text();
@@ -32,16 +31,16 @@ void handleEvent(sf::RenderWindow* window) {
 *************************************************/
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Tamamon");
+    sf::RenderWindow window(sf::VideoMode(WINDOWX, WINDOWY), "Tamamon");
 
-    Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, 25, 25));
+    Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH));
     
     sf::Clock clock;
     
     while (window.isOpen())
     {
         handleEvent(&window);
-        diggi->run(&clock, windowX, windowY);
+        diggi->run(&clock, WINDOWX, WINDOWY);
 
         window.clear(sf::Color::White);
         window.draw(diggi->getSprite());
