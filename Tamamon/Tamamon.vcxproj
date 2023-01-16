@@ -153,7 +153,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="UIcontroller.h" />
+    <ClInclude Include="vitalDisplay.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tamamon.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

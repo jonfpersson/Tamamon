@@ -4,8 +4,8 @@
 
 #include  "Monster.h"
 
-#define WINDOWX 350
-#define WINDOWY 300
+#define WINDOWX 550
+#define WINDOWY 500
 #define TEXTURE_WIDTH 25
 
 
@@ -46,7 +46,11 @@ int main()
         window.draw(diggi->getSprite());
 
         for (int i = 0; i < 3; i++) {
-            sf::Text txt = *(diggi->getUIElements()[i]);
+            vitalDisplay vd = (*(diggi->getUIElements()))[i];
+
+            sf::Sprite sp = *vd.sprite;
+            sf::Text txt = *vd.textField;
+            window.draw(sp);
             window.draw(txt);
         }
 

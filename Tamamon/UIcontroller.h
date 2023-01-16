@@ -1,20 +1,25 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "vitalDisplay.h"
 class UIcontroller
 {
 private:
     sf::Font  m_font;
-	sf::Text* m_foodTextField;
-	sf::Text* m_healthTextField;
-	sf::Text* m_waterTextField;
 
-	sf::Text* initTextField(int, int);
+	int m_size = 3;
+
+	vitalDisplay* vitals;
+
+	sf::Text* initTextField(sf::Text*, int, int);
+	const char* icons[3] = {"icons\\pizza.png", "icons\\heart.png", "icons\\water.png"};
 
 public:
 	~UIcontroller();
 	UIcontroller();
 
-	sf::Text** getElements();
+	static void setSprite(const char*, sf::Texture*, sf::IntRect*, sf::Sprite*, int, int, int);
+
+	vitalDisplay** getElements();
 	void notifyOfChange(int, int, int);
 };
 

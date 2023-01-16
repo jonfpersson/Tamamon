@@ -40,7 +40,7 @@ Monster::~Monster() {
 *************************************************/
 void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 
-	if (clock->getElapsedTime().asSeconds() > 0.85f) {
+	if (clock->getElapsedTime().asSeconds() > 0.35f) {
 
 		if (m_timer % 10 == 0) {
 			updateVitals();
@@ -84,7 +84,7 @@ void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
 /************************************************
 * @brief Returns ui elements to be drawn
 *************************************************/
-sf::Text** Monster::getUIElements() {
+vitalDisplay** Monster::getUIElements() {
 	return m_uiController->getElements();
 }
 
@@ -164,15 +164,7 @@ void Monster::changeSpeedDirection(int* speed) {
 * @brief Sets sprite and location of monster
 *************************************************/
 void Monster::setSprite(const char* path) {
-	m_texture.loadFromFile(path);
-	m_sprite.setTexture(m_texture);
-	m_sprite.setTextureRect(m_rectagleSource);
-
-	m_sprite.setScale(m_pixelScale, m_pixelScale);
-
-	m_sprite.setOrigin(m_rectagleSource.width / 2, m_rectagleSource.height / 2);
-	m_sprite.setPosition(m_x, m_y);
-	
+	UIcontroller::setSprite(path, &m_texture, &m_rectagleSource, &m_sprite, m_x, m_y, m_pixelScale);
 }
 
 /************************************************

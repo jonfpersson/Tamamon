@@ -41,7 +41,7 @@ public:
 
 	void animate(sf::Clock* const, int, int);
 	void run(sf::Clock* const, int, int);
-	sf::Text** getUIElements();;
+	vitalDisplay** getUIElements();;
 
 	sf::Sprite  getSprite();
 	
