@@ -74,12 +74,10 @@ vitalDisplay** UIcontroller::getElements() {
 * @param y - height position of text
 * @brief Initializes text fields
 *************************************************/
-sf::Text* UIcontroller::initTextField(sf::Text* obj, int x, int y) {
+void UIcontroller::initTextField(sf::Text* obj, int x, int y) {
     obj->setPosition(x, y);
     obj->setCharacterSize(24);
     obj->setFillColor(sf::Color::Black);
-
-    return obj;
 }
 
 /************************************************

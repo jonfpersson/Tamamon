@@ -10,7 +10,7 @@ private:
 
 	vitalDisplay* vitals;
 
-	sf::Text* initTextField(sf::Text*, int, int);
+	void initTextField(sf::Text*, int, int);
 	const char* icons[3] = {"icons\\pizza.png", "icons\\heart.png", "icons\\water.png"};
 
 public:
