@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include  "Monster.h"
+#include  "Button.h"
 
 #define WINDOWX 550
 #define WINDOWY 500
@@ -33,30 +34,27 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOWX, WINDOWY), "Tamamon");
 
-    Monster* diggi = new Monster(80, 80, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH));
-    
+    Monster* diggi = new Monster(280, 280, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH), &window);
+    Button* btn = new Button(sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH));
+    //sf::Mouse* ms = new sf::Mouse();
+
     sf::Clock clock;
     
     while (window.isOpen())
     {
-        handleEvent(&window);
-        diggi->run(&clock, WINDOWX, WINDOWY);
-
         window.clear(sf::Color::White);
-        window.draw(diggi->getSprite());
-
-        for (int i = 0; i < 3; i++) {
-            vitalDisplay vd = (*(diggi->getUIElements()))[i];
-
-            sf::Sprite sp = *vd.sprite;
-            sf::Text txt = *vd.textField;
-            window.draw(sp);
-            window.draw(txt);
-        }
+        handleEvent(&window);
+        
+        diggi->run(&clock, WINDOWX, WINDOWY);
+      //  btn->isClicked(*ms, 280, 280);
+        
+        diggi->draw();
+        btn->draw(&window);
 
         window.display();
     }
 
     delete diggi;
+    delete btn;
     return 0;
 }

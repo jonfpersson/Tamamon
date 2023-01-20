@@ -11,7 +11,8 @@ using std::filesystem::directory_iterator;
 /************************************************
 * @brief Constructor
 *************************************************/
-Monster::Monster(int x, int y, sf::IntRect rs) {
+Monster::Monster(int x, int y, sf::IntRect rs, sf::RenderWindow* w) {
+	window = w;
 	m_x = x;
 	m_y = y;
 	m_rectagleSource = rs;
@@ -24,8 +25,7 @@ Monster::Monster(int x, int y, sf::IntRect rs) {
 		m_textures.push_back(file.path().string());
 	}
 
-
-	m_uiController = new UIcontroller();
+	m_uiController = new UIcontroller(window);
 }
 
 /************************************************
@@ -56,9 +56,9 @@ void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 *************************************************/
 void Monster::updateVitals() {
 	double offset = (double) 1 / (RAND_MAX);
-	m_food -= 5 * offset * rand();
-	m_water -= 5 * offset * rand();
-	m_hp -= 5 * offset * rand();
+	m_food -= (int) (5 * offset * rand());
+	m_water -= (int) (5 * offset * rand());
+	m_hp -= (int) (5 * offset * rand());
 
 	m_uiController->notifyOfChange(m_food, m_water, m_hp);
 
@@ -82,10 +82,11 @@ void Monster::animate(sf::Clock* const clock, int windowX, int windowY) {
 }
 
 /************************************************
-* @brief Returns ui elements to be drawn
+* @brief Draws sprite
 *************************************************/
-vitalDisplay** Monster::getUIElements() {
-	return m_uiController->getElements();
+void Monster::draw() {
+	window->draw(m_sprite);
+	m_uiController->draw();
 }
 
 /************************************************

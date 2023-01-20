@@ -3,20 +3,22 @@
 using std::string;
 #include  "UIcontroller.h"
 
+#define VITAL_START_VALUE 100
+
 class Monster
 {
 private:
 	std::vector<std::string> m_textures;
 	int   m_x;
 	int   m_y;
-	float m_pixelScale = 5.0f;
+	int m_pixelScale = 5;
 	int m_movementSpeedX = 5;
 	int m_movementSpeedY = 3;
 	long m_timer = 0;
 
-	int m_food = 100;
-	int m_hp = 100;
-	int m_water = 100;
+	int m_food = VITAL_START_VALUE;
+	int m_hp = VITAL_START_VALUE;
+	int m_water = VITAL_START_VALUE;
 	
 	UIcontroller* m_uiController;
 
@@ -24,6 +26,7 @@ private:
 	sf::IntRect m_rectagleSource;
 	sf::Sprite  m_sprite;
 
+	sf::RenderWindow* window;
 	void updateVitals();
 	void nextAtlasSquare();
 	int currentAtlasSquare();
@@ -36,14 +39,13 @@ private:
 	void setIntRect(int, int, int, int);
 
 public: 
-	Monster(int x, int y, sf::IntRect rs);
+	Monster(int x, int y, sf::IntRect rs, sf::RenderWindow*);
 	~Monster();
 
 	void animate(sf::Clock* const, int, int);
 	void run(sf::Clock* const, int, int);
-	vitalDisplay** getUIElements();;
 
 	sf::Sprite  getSprite();
-	
+	void draw();
 };
 

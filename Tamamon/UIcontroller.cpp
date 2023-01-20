@@ -1,13 +1,15 @@
-#include "UIcontroller.h"
 #include <iostream>
 #include <stdlib.h>
+
+#include "UIcontroller.h"
 
 #define TEXTURE_WIDTH 25
 
 /************************************************
 * @brief Constructor
 *************************************************/
-UIcontroller::UIcontroller() {
+UIcontroller::UIcontroller(sf::RenderWindow* w) {
+    window = w;
     m_font.loadFromFile("arial.ttf");
     vitals = (vitalDisplay*) malloc(sizeof(vitalDisplay) * m_size);
 
@@ -40,6 +42,16 @@ UIcontroller::~UIcontroller() {
 }
 
 /************************************************
+* @brief Draws sprite
+*************************************************/
+void UIcontroller::draw() {
+    for (int i = 0; i < m_size; i++) {
+        window->draw(*vitals[i].sprite);
+        window->draw(*vitals[i].textField);
+    }
+}
+
+/************************************************
 * @param path - Path to image atlas
 * @brief Sets sprite and location of monster
 *************************************************/
@@ -60,13 +72,6 @@ void UIcontroller::setSprite(const char* path,
     sprite->setOrigin(rectagleSource->width / 2, rectagleSource->height / 2);
     sprite->setPosition(x, y);
 
-}
-
-/************************************************
-* @brief Returns ui elements to be drawn
-*************************************************/
-vitalDisplay** UIcontroller::getElements() {
-    return &vitals;
 }
 
 /************************************************

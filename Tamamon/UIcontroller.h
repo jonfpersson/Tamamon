@@ -5,7 +5,7 @@ class UIcontroller
 {
 private:
     sf::Font  m_font;
-
+	sf::RenderWindow* window;
 	int m_size = 3;
 
 	vitalDisplay* vitals;
@@ -15,11 +15,11 @@ private:
 
 public:
 	~UIcontroller();
-	UIcontroller();
+	UIcontroller(sf::RenderWindow*);
 
 	static void setSprite(const char*, sf::Texture*, sf::IntRect*, sf::Sprite*, int, int, int);
 
-	vitalDisplay** getElements();
 	void notifyOfChange(int, int, int);
+	void draw();
 };
 
