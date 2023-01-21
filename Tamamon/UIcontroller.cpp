@@ -70,6 +70,7 @@ void UIcontroller::setSprite(const char* path,
     sprite->setScale(pixelScale, pixelScale);
 
     sprite->setOrigin(rectagleSource->width / 2, rectagleSource->height / 2);
+
     sprite->setPosition(x, y);
 
 }
@@ -90,11 +91,16 @@ void UIcontroller::initTextField(sf::Text* obj, int x, int y) {
 *************************************************/
 void UIcontroller::notifyOfChange(int food, int water, int health) {
  
-    sf::Text* f = (vitals[0]).textField;
-    sf::Text* w = (vitals[1]).textField;
-    sf::Text* h = (vitals[2]).textField;
-
-    f->setString(std::to_string(food));
-    w->setString(std::to_string(water));
-    h->setString(std::to_string(health));
+    if (food <= 100) {
+        sf::Text* f = (vitals[0]).textField;
+        f->setString(std::to_string(food));
+    }
+    if (water <= 100) {
+        sf::Text* w = (vitals[1]).textField;
+        w->setString(std::to_string(water));
+    }
+    if (health <= 100) {
+        sf::Text* h = (vitals[2]).textField;
+        h->setString(std::to_string(health));
+    }
 }

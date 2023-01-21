@@ -40,7 +40,7 @@ Monster::~Monster() {
 *************************************************/
 void Monster::run(sf::Clock* const clock, int windowX, int windowY) {
 
-	if (clock->getElapsedTime().asSeconds() > 0.35f) {
+	if (clock->getElapsedTime().asSeconds() > 0.85f) {
 
 		if (m_timer % 10 == 0) {
 			updateVitals();
@@ -62,6 +62,17 @@ void Monster::updateVitals() {
 
 	m_uiController->notifyOfChange(m_food, m_water, m_hp);
 
+}
+
+/************************************************
+* @brief Reduces vitals randomly
+*************************************************/
+void Monster::giveVitalPoint(int f, int w, int h) {
+	m_food += f;
+	m_water += w;
+	m_hp += h;
+
+	m_uiController->notifyOfChange(m_food, m_water, m_hp);
 }
 
 /************************************************

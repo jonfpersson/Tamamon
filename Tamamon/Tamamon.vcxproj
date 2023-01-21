@@ -147,11 +147,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Tamamon.cpp" />
     <ClCompile Include="UIcontroller.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="UIcontroller.h" />
     <ClInclude Include="vitalDisplay.h" />

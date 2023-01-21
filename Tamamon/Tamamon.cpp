@@ -4,11 +4,11 @@
 
 #include  "Monster.h"
 #include  "Button.h"
+using namespace std;
 
 #define WINDOWX 550
 #define WINDOWY 500
 #define TEXTURE_WIDTH 25
-
 
 sf::Text* hungerText = new sf::Text();
 sf::Text* hpText = new sf::Text();
@@ -35,8 +35,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(WINDOWX, WINDOWY), "Tamamon");
 
     Monster* diggi = new Monster(280, 280, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH), &window);
-    Button* btn = new Button(sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH));
-    //sf::Mouse* ms = new sf::Mouse();
+    Button* FeedBtn = new Button(WINDOWX / 3, 450, "icons\\pizza_button.png", sf::IntRect(0, 0, 43, 33), &window);
+    Button* waterBtn = new Button(WINDOWX - (WINDOWX / 3), 450, "icons\\water_button.png", sf::IntRect(0, 0, 43, 33), &window);
+    Button* healthBtn = new Button(WINDOWX / 2, 450, "icons\\heart_button.png", sf::IntRect(0, 0, 43, 33), &window);
 
     sf::Clock clock;
     
@@ -46,15 +47,37 @@ int main()
         handleEvent(&window);
         
         diggi->run(&clock, WINDOWX, WINDOWY);
-      //  btn->isClicked(*ms, 280, 280);
+        
+        if (FeedBtn->isClicked(280, 450)) {
+            diggi->giveVitalPoint(1, 0, 0);
+            cout << "pressed";
+        }
+
+        if (waterBtn->isClicked(280, 450)) {
+            diggi->giveVitalPoint(0, 0, 1);
+            cout << "pressed";
+
+
+        }
+
+        if (healthBtn->isClicked(280, 450)) {
+            diggi->giveVitalPoint(0, 1, 0);
+            cout << "pressed";
+
+
+        }
         
         diggi->draw();
-        btn->draw(&window);
+        FeedBtn->draw();
+        waterBtn->draw();
+        healthBtn->draw();
 
         window.display();
     }
 
     delete diggi;
-    delete btn;
+    delete FeedBtn;
+    delete waterBtn;
+    delete healthBtn;
     return 0;
 }

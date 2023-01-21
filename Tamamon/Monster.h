@@ -47,5 +47,6 @@ public:
 
 	sf::Sprite  getSprite();
 	void draw();
+	void giveVitalPoint(int, int, int);
 };
 
