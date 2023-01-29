@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <SFML/Graphics.hpp>
+#include <windows.h>
 
 #include  "Monster.h"
 #include  "Button.h"
@@ -32,6 +33,9 @@ void handleEvent(sf::RenderWindow* window) {
 *************************************************/
 int main()
 {
+    HWND hWnd = GetConsoleWindow();
+    ShowWindow(hWnd, SW_HIDE);
+
     sf::RenderWindow window(sf::VideoMode(WINDOWX, WINDOWY), "Tamamon");
 
     Monster* diggi = new Monster(280, 280, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH), &window);
@@ -50,21 +54,14 @@ int main()
         
         if (FeedBtn->isClicked(280, 450)) {
             diggi->giveVitalPoint(1, 0, 0);
-            cout << "pressed";
         }
 
         if (waterBtn->isClicked(280, 450)) {
             diggi->giveVitalPoint(0, 0, 1);
-            cout << "pressed";
-
-
         }
 
         if (healthBtn->isClicked(280, 450)) {
             diggi->giveVitalPoint(0, 1, 0);
-            cout << "pressed";
-
-
         }
         
         diggi->draw();
