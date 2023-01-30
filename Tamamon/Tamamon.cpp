@@ -5,7 +5,6 @@
 
 #include  "Monster.h"
 #include  "Button.h"
-using namespace std;
 
 #define WINDOWX 550
 #define WINDOWY 500
