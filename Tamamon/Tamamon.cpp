@@ -11,9 +11,6 @@ using namespace std;
 #define WINDOWY 500
 #define TEXTURE_WIDTH 25
 
-sf::Text* hungerText = new sf::Text();
-sf::Text* hpText = new sf::Text();
-sf::Text* waterText = new sf::Text();
 /************************************************
 * @param window - Window
 * @brief Handles closing of window
