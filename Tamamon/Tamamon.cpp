@@ -24,41 +24,35 @@ void handleEvent(sf::RenderWindow* const window) {
     }
 }
 
-void runGame(sf::RenderWindow* const window) {
+void startScreen(sf::RenderWindow* const window, sf::Clock* clock) {
+    //TODO
+}
 
-    Monster diggi(280, 280, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH), window);
-    Button FeedBtn(WINDOWX / 3, 450, "icons\\pizza_button.png", sf::IntRect(0, 0, 43, 33), window);
-    Button waterBtn(WINDOWX - (WINDOWX / 3), 450, "icons\\water_button.png", sf::IntRect(0, 0, 43, 33), window);
-    Button healthBtn(WINDOWX / 2, 450, "icons\\heart_button.png", sf::IntRect(0, 0, 43, 33), window);
+void runDigimon(sf::RenderWindow* const window, sf::Clock* clock, Monster* diggi, Button* FeedBtn, Button* waterBtn, Button* healthBtn) {
+    
+    window->clear(sf::Color::White);
+    handleEvent(window);
 
-    sf::Clock clock;
+    diggi->run(clock, WINDOWX, WINDOWY);
 
-    while (window->isOpen())
-    {
-        window->clear(sf::Color::White);
-        handleEvent(window);
-
-        diggi.run(&clock, WINDOWX, WINDOWY);
-
-        if (FeedBtn.isClicked(280, 450)) {
-            diggi.giveVitalPoint(1, 0, 0);
-        }
-
-        if (waterBtn.isClicked(280, 450)) {
-            diggi.giveVitalPoint(0, 0, 1);
-        }
-
-        if (healthBtn.isClicked(280, 450)) {
-            diggi.giveVitalPoint(0, 1, 0);
-        }
-
-        diggi.draw();
-        FeedBtn.draw();
-        waterBtn.draw();
-        healthBtn.draw();
-
-        window->display();
+    if (FeedBtn->isClicked(280, 450)) {
+        diggi->giveVitalPoint(1, 0, 0);
     }
+
+    if (waterBtn->isClicked(280, 450)) {
+        diggi->giveVitalPoint(0, 0, 1);
+    }
+
+    if (healthBtn->isClicked(280, 450)) {
+        diggi->giveVitalPoint(0, 1, 0);
+    }
+
+    diggi->draw();
+    FeedBtn->draw();
+    waterBtn->draw();
+    healthBtn->draw();
+
+    window->display();
 
 }
 
@@ -71,8 +65,19 @@ int main()
     ShowWindow(hWnd, SW_HIDE);
 
     sf::RenderWindow window(sf::VideoMode(WINDOWX, WINDOWY), "Tamamon");
+    
+    Monster diggi(280, 280, sf::IntRect(0, 0, TEXTURE_WIDTH, TEXTURE_WIDTH), &window);
+    Button FeedBtn(WINDOWX / 3, 450, "icons\\pizza_button.png", sf::IntRect(0, 0, 43, 33), &window);
+    Button waterBtn(WINDOWX - (WINDOWX / 3), 450, "icons\\water_button.png", sf::IntRect(0, 0, 43, 33), &window);
+    Button healthBtn(WINDOWX / 2, 450, "icons\\heart_button.png", sf::IntRect(0, 0, 43, 33), &window);
 
-    runGame(&window);
+    sf::Clock clock;
+
+    while (window.isOpen())
+    {
+        startScreen(&window, &clock);
+        runDigimon(&window, &clock, &diggi, &FeedBtn, &waterBtn, &healthBtn);
+    }
 
     return 0;
 }
