@@ -8,7 +8,7 @@
 /************************************************
 * @brief Constructor
 *************************************************/
-UIcontroller::UIcontroller(sf::RenderWindow* w) {
+UIcontroller::UIcontroller(sf::RenderWindow* const w) {
     window = w;
     m_font.loadFromFile("arial.ttf");
     vitals = (vitalDisplay*) malloc(sizeof(vitalDisplay) * m_size);
@@ -55,10 +55,10 @@ void UIcontroller::draw() {
 * @param path - Path to image atlas
 * @brief Sets sprite and location of monster
 *************************************************/
-void UIcontroller::setSprite(const char* path,
-    sf::Texture* texture,
-    sf::IntRect* rectagleSource,
-    sf::Sprite* sprite,
+void UIcontroller::setSprite(const char* const path,
+    sf::Texture* const texture,
+    const sf::IntRect* const rectagleSource,
+    sf::Sprite* const sprite,
     int x,
     int y,
     int pixelScale) {
@@ -80,7 +80,7 @@ void UIcontroller::setSprite(const char* path,
 * @param y - height position of text
 * @brief Initializes text fields
 *************************************************/
-void UIcontroller::initTextField(sf::Text* obj, int x, int y) {
+void UIcontroller::initTextField(sf::Text* const obj, int x, int y) {
     obj->setPosition(x, y);
     obj->setCharacterSize(24);
     obj->setFillColor(sf::Color::Black);

@@ -30,16 +30,16 @@ private:
 	void updateVitals();
 	void nextAtlasSquare();
 	int currentAtlasSquare();
-	void changeSpeedDirection(int*);
+	void changeSpeedDirection(int* const);
 	void handleEdgeColission(int, int);
-	void setSprite(const char*);
+	void setSprite(const char* const);
 	void updateAtlas();
 	void flipSprite();
 	void move(int, int);
 	void setIntRect(int, int, int, int);
 
 public: 
-	Monster(int x, int y, sf::IntRect rs, sf::RenderWindow*);
+	Monster(int x, int y, sf::IntRect rs, sf::RenderWindow* const);
 	~Monster();
 
 	void animate(sf::Clock* const, int, int);

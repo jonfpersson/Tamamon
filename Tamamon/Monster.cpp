@@ -11,7 +11,7 @@ using std::filesystem::directory_iterator;
 /************************************************
 * @brief Constructor
 *************************************************/
-Monster::Monster(int x, int y, sf::IntRect rs, sf::RenderWindow* w) {
+Monster::Monster(int x, int y, sf::IntRect rs, sf::RenderWindow* const w) {
 	window = w;
 	m_x = x;
 	m_y = y;
@@ -166,7 +166,7 @@ int Monster::currentAtlasSquare() {
 * @param speed - walking speed of monster
 * @brief Reverses speed
 *************************************************/
-void Monster::changeSpeedDirection(int* speed) {
+void Monster::changeSpeedDirection(int* const speed) {
 	*speed = -(*speed);
 	return;
 }
@@ -175,7 +175,7 @@ void Monster::changeSpeedDirection(int* speed) {
 * @param path - Path to image atlas
 * @brief Sets sprite and location of monster
 *************************************************/
-void Monster::setSprite(const char* path) {
+void Monster::setSprite(const char* const path) {
 	UIcontroller::setSprite(path, &m_texture, &m_rectagleSource, &m_sprite, m_x, m_y, m_pixelScale);
 }
 

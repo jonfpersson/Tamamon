@@ -10,14 +10,14 @@ private:
 
 	vitalDisplay* vitals;
 
-	void initTextField(sf::Text*, int, int);
+	void initTextField(sf::Text* const, int, int);
 	const char* icons[3] = {"icons\\pizza.png", "icons\\heart.png", "icons\\water.png"};
 
 public:
 	~UIcontroller();
-	UIcontroller(sf::RenderWindow*);
+	UIcontroller(sf::RenderWindow* const);
 
-	static void setSprite(const char*, sf::Texture*, sf::IntRect*, sf::Sprite*, int, int, int);
+	static void setSprite(const char* const, sf::Texture* const, const sf::IntRect* const, sf::Sprite* const, int, int, int);
 
 	void notifyOfChange(int, int, int);
 	void draw();
